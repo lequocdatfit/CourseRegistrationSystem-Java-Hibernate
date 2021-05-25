@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.Giaovu" table="giaovu" schema="heroku_7a0296d746ae0f3">
+        <id name="maGiaoVu">
+            <column name="MaGiaoVu" sql-type="int(11)"/>
+        </id>
+        <property name="hoVaTen">
+            <column name="HoVaTen" sql-type="varchar(35)" length="35" not-null="true"/>
+        </property>
+        <property name="matKhau">
+            <column name="MatKhau" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

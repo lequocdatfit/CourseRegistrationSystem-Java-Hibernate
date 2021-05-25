@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.Hocphan" table="hocphan" schema="heroku_7a0296d746ae0f3">
+        <id name="id">
+            <column name="Id" sql-type="varchar(8)" length="8"/>
+        </id>
+        <property name="maMh">
+            <column name="MaMH" sql-type="varchar(8)" length="8" not-null="true"/>
+        </property>
+        <property name="maGv">
+            <column name="MaGV" sql-type="varchar(8)" length="8" not-null="true"/>
+        </property>
+        <property name="ngayTrongTuan">
+            <column name="NgayTrongTuan" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="ca">
+            <column name="Ca" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="slot">
+            <column name="Slot" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="phongHoc">
+            <column name="PhongHoc" sql-type="varchar(10)" length="10" not-null="true"/>
+        </property>
+        <property name="tenHk">
+            <column name="TenHK" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="namHoc">
+            <column name="NamHoc" sql-type="varchar(4)" length="4" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

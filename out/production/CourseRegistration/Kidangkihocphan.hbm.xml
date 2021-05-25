@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.Kidangkihocphan" table="kidangkihocphan" schema="heroku_7a0296d746ae0f3">
+        <id name="id">
+            <column name="Id" sql-type="varchar(10)" length="10"/>
+        </id>
+        <property name="tenHocKi">
+            <column name="TenHocKi" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="namHoc">
+            <column name="NamHoc" sql-type="varchar(4)" length="4" not-null="true"/>
+        </property>
+        <property name="ngayBatDau">
+            <column name="NgayBatDau" sql-type="date" not-null="true"/>
+        </property>
+        <property name="ngayKetThuc">
+            <column name="NgayKetThuc" sql-type="date" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.Lophoc" table="lophoc" schema="heroku_7a0296d746ae0f3">
+        <id name="maLop">
+            <column name="MaLop" sql-type="varchar(8)" length="8"/>
+        </id>
+        <property name="tongNam">
+            <column name="TongNam" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="tongNu">
+            <column name="TongNu" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
