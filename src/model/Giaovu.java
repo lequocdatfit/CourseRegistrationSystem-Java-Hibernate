@@ -3,15 +3,15 @@ package model;
 import java.util.Objects;
 
 public class Giaovu {
-    private int maGiaoVu;
+    private String maGiaoVu;
     private String hoVaTen;
     private String matKhau;
 
-    public int getMaGiaoVu() {
+    public String getMaGiaoVu() {
         return maGiaoVu;
     }
 
-    public void setMaGiaoVu(int maGiaoVu) {
+    public void setMaGiaoVu(String maGiaoVu) {
         this.maGiaoVu = maGiaoVu;
     }
 
@@ -36,7 +36,7 @@ public class Giaovu {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Giaovu giaovu = (Giaovu) o;
-        return maGiaoVu == giaovu.maGiaoVu && Objects.equals(hoVaTen, giaovu.hoVaTen) && Objects.equals(matKhau, giaovu.matKhau);
+        return Objects.equals(maGiaoVu, giaovu.maGiaoVu) && Objects.equals(hoVaTen, giaovu.hoVaTen) && Objects.equals(matKhau, giaovu.matKhau);
     }
 
     @Override

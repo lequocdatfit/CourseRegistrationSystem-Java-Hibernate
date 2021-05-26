@@ -6,7 +6,7 @@
 
     <class name="model.Giaovu" table="giaovu" schema="heroku_7a0296d746ae0f3">
         <id name="maGiaoVu">
-            <column name="MaGiaoVu" sql-type="int(11)"/>
+            <column name="MaGiaoVu" sql-type="varchar(8)"/>
         </id>
         <property name="hoVaTen">
             <column name="HoVaTen" sql-type="varchar(35)" length="35" not-null="true"/>
