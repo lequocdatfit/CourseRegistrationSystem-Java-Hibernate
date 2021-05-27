@@ -1,11 +1,41 @@
 package model;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Giaovu {
     private String maGiaoVu;
     private String hoVaTen;
     private String matKhau;
+    private Date ngaySinh;
+    private String dienThoai;
+
+    public Giaovu() {
+    }
+
+    public Date getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public Giaovu(String maGiaoVu, String hoVaTen, String matKhau, Date ngaySinh, String dienThoai) {
+        this.maGiaoVu = maGiaoVu;
+        this.hoVaTen = hoVaTen;
+        this.matKhau = matKhau;
+        this.ngaySinh = ngaySinh;
+        this.dienThoai = dienThoai;
+    }
+
+    public String getDienThoai() {
+        return dienThoai;
+    }
+
+    public void setNgaySinh(Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public void setDienThoai(String dienThoai) {
+        this.dienThoai = dienThoai;
+    }
 
     public String getMaGiaoVu() {
         return maGiaoVu;

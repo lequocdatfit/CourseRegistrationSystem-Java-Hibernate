@@ -60,6 +60,8 @@ public class LoginFrm extends JFrame {
                                     HomeGVFrm homeGVFrm = new HomeGVFrm("Trang chủ");
                                     homeGVFrm.setVisible(true);
                                     setVisible(false);
+                                } else {
+                                    JOptionPane.showMessageDialog(mainPanel, "Tên đăng nhập hoặc mật khẩu không đúng!");
                                 }
                             }
                         }

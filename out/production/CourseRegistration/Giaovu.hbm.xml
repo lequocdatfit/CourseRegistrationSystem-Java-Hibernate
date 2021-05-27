@@ -14,5 +14,11 @@
         <property name="matKhau">
             <column name="MatKhau" sql-type="varchar(30)" length="30" not-null="true"/>
         </property>
+        <property name="ngaySinh">
+            <column name="NgaySinh" sql-type="date" not-null="true"/>
+        </property>
+        <property name="dienThoai">
+            <column name="DienThoai" sql-type="varchar(15)" length="15" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>
