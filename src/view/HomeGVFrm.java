@@ -5,6 +5,8 @@ import model.Giaovu;
 import model.Sinhvien;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,6 +26,7 @@ public class HomeGVFrm extends JFrame{
 
     private List<Sinhvien> ls_sinhvien;
     private List<Giaovu> ls_giaovu;
+    private int selectedIndex;
 
     public HomeGVFrm(String title) {
         super(title);
@@ -41,13 +44,71 @@ public class HomeGVFrm extends JFrame{
 
         this.updateGiaovuTable();
 
-
+        tabbedPane1.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Thread updateData = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("State change!");
+                        int index = tabbedPane1.getSelectedIndex();
+                        if(index == 0) {
+                            ls_giaovu.clear();
+                            ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
+                            giaovuModel.setRowCount(0);
+                            updateGiaovuTable();
+                        }
+                    }
+                });
+                updateData.start();
+            }
+        });
 
         thêmGiáoVụButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 InputGiaovuFrm input = new InputGiaovuFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
                 input.setVisible(true);
+            }
+        });
+
+
+        sửaGiáoVụButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedIndex = giaovutbl.getSelectedRow();
+                if(ls_giaovu.size() == 0) {
+                    JOptionPane.showMessageDialog(mainPanel, "Không có giáo vụ nào để sửa");
+                } else if (selectedIndex == -1) {
+                    JOptionPane.showMessageDialog(mainPanel, "Hãy chọn một giáo vụ trên bảng rồi chọn Sửa");
+                } else {
+                    EditGiaovuFrm edit = new EditGiaovuFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                    edit.setEditData(ls_giaovu.get(selectedIndex));
+                    edit.setVisible(true);
+                }
+            }
+        });
+        xóaGiáoVụButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedIndex = giaovutbl.getSelectedRow();
+                if(ls_giaovu.size() == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Không có giáo vụ nào để xóa !");
+                } else if(selectedIndex == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Hãy chọn giáo vụ trên bảng rồi chọn xóa !");
+                } else {
+                    int output = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa giáo vụ này không ?",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        if(HomeGVFrm.this.xoaGiaoVu(ls_giaovu.get(selectedIndex))) {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa thất bại!");
+                        }
+                    } else if(output == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                }
             }
         });
     }
@@ -61,6 +122,28 @@ public class HomeGVFrm extends JFrame{
         } else {
             return false;
         }
+    }
+
+    public boolean SuaGiaovu(Giaovu gv) {
+        if(GiaoVuDAO.suaThongTinGiaoVu(gv)) {
+            ls_giaovu.clear();
+            ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
+            giaovuModel.setRowCount(0);
+            updateGiaovuTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean xoaGiaoVu(Giaovu gv) {
+        if(GiaoVuDAO.xoaGiaoVu(gv)) {
+            ls_giaovu.clear();
+            ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
+            giaovuModel.setRowCount(0);
+            updateGiaovuTable();
+            return true;
+        }
+        return false;
     }
 
     public void updateGiaovuTable() {

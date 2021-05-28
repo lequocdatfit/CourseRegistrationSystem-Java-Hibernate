@@ -57,4 +57,46 @@ public class GiaoVuDAO {
         }
         return true;
     }
+
+    public static boolean suaThongTinGiaoVu(Giaovu g) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        if(GiaoVuDAO.LayThongTinGiaoVu(g.getMaGiaoVu()) == null) {
+            return false;
+        }
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.update(g);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            session.close();
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
+    }
+
+    public static boolean xoaGiaoVu(Giaovu gv) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        if(GiaoVuDAO.LayThongTinGiaoVu(gv.getMaGiaoVu()) == null) {
+            return false;
+        }
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(gv);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            session.close();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
+    }
 }
