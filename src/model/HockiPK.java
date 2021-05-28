@@ -7,6 +7,14 @@ public class HockiPK implements Serializable {
     private String tenHk;
     private String namHoc;
 
+    public HockiPK() {
+    }
+
+    public HockiPK(String tenHk, String namHoc) {
+        this.tenHk = tenHk;
+        this.namHoc = namHoc;
+    }
+
     public String getTenHk() {
         return tenHk;
     }

@@ -9,7 +9,7 @@
             <column name="MaMH" sql-type="varchar(8)" length="8"/>
         </id>
         <property name="tenMh">
-            <column name="TenMH" sql-type="varchar(30)" length="30" not-null="true"/>
+            <column name="TenMH" sql-type="varchar(40)" length="40" not-null="true"/>
         </property>
         <property name="soTinChi">
             <column name="SoTinChi" sql-type="int(11)" not-null="true"/>

@@ -5,7 +5,16 @@ import java.util.Objects;
 public class Monhoc {
     private String maMh;
     private String tenMh;
-    private Integer soTinChi;
+    private int soTinChi;
+
+    public Monhoc() {
+    }
+
+    public Monhoc(String maMh, String tenMh, int soTinChi) {
+        this.maMh = maMh;
+        this.tenMh = tenMh;
+        this.soTinChi = soTinChi;
+    }
 
     public String getMaMh() {
         return maMh;
@@ -23,11 +32,11 @@ public class Monhoc {
         this.tenMh = tenMh;
     }
 
-    public Integer getSoTinChi() {
+    public int getSoTinChi() {
         return soTinChi;
     }
 
-    public void setSoTinChi(Integer soTinChi) {
+    public void setSoTinChi(int soTinChi) {
         this.soTinChi = soTinChi;
     }
 

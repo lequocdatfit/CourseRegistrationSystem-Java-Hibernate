@@ -33,7 +33,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="001"/>
+        </properties>
       </component>
       <component id="e9f6d" class="javax.swing.JLabel">
         <constraints>
@@ -73,7 +75,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="abcd"/>
+        </properties>
       </component>
     </children>
   </grid>

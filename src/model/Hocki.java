@@ -1,14 +1,34 @@
 package model;
 
-import java.sql.Date;
+import org.hibernate.annotations.Entity;
+
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
-public class Hocki {
+@Entity
+@IdClass(HockiPK.class)
+public class Hocki implements Serializable {
+    @Id
     private String tenHk;
+    @Id
     private String namHoc;
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private Boolean hkHienTai;
+
+    public Hocki() {
+    }
+
+    public Hocki(String tenHk, String namHoc, Date ngayBatDau, Date ngayKetThuc, Boolean hkHienTai) {
+        this.tenHk = tenHk;
+        this.namHoc = namHoc;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.hkHienTai = hkHienTai;
+    }
 
     public String getTenHk() {
         return tenHk;
