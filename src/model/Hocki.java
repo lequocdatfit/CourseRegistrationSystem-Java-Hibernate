@@ -82,4 +82,9 @@ public class Hocki implements Serializable {
     public int hashCode() {
         return Objects.hash(tenHk, namHoc, ngayBatDau, ngayKetThuc, hkHienTai);
     }
+
+    @Override
+    public String toString() {
+        return this.getTenHk() + '-' + this.getNamHoc();
+    }
 }

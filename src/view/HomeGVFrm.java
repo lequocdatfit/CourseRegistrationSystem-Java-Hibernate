@@ -30,8 +30,9 @@ public class HomeGVFrm extends JFrame{
     private JButton xóaMônHọcButton;
     private JTable tblHocKi;
     private JButton addHocKi;
-    private JButton btnEditHocKi;
     private JButton btnXoaHocKi;
+    private JButton btnSelectHocKi;
+    private JLabel txtHocKiHienTai;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -41,6 +42,7 @@ public class HomeGVFrm extends JFrame{
     private List<Giaovu> ls_giaovu;
     private List<Monhoc> ls_monhoc;
     private List<Hocki> ls_hocki;
+    private Hocki currentSemester;
     private int selectedIndex;
 
     public HomeGVFrm(String title) {
@@ -88,6 +90,8 @@ public class HomeGVFrm extends JFrame{
                             monhocModel.setRowCount(0);
                             updateMonhocTable();
                         } else if(index == 2) {
+                            currentSemester = HocKiDAO.layHocKiHienTai();
+                            txtHocKiHienTai.setText(currentSemester.getTenHk() + ' ' + currentSemester.getNamHoc());
                             ls_hocki = HocKiDAO.layDanhSachHocKi();
                             hockiModel.setRowCount(0);
                             updateHockiTable();
@@ -198,6 +202,37 @@ public class HomeGVFrm extends JFrame{
                 input.setVisible(true);
             }
         });
+
+        btnXoaHocKi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tblHocKi.getSelectedRow();
+                if(ls_hocki.isEmpty()) {
+                    JOptionPane.showMessageDialog(mainPanel, "Không có học kì nào để xóa!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(mainPanel, "Hãy chọn một học kì trên bảng rồi chọn xóa!");
+                } else {
+                    int output = JOptionPane.showConfirmDialog(mainPanel, "Bạn có chắc muốn xóa học kì này?",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        if(HomeGVFrm.this.xoaHocKi(ls_hocki.get(index))) {
+                            JOptionPane.showMessageDialog(mainPanel, "Xóa thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(mainPanel, "Xóa thất bại!");
+                        }
+                    } else if(output == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                }
+            }
+        });
+        btnSelectHocKi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SelectCurrentHocKi selectFrm = new SelectCurrentHocKi(HomeGVFrm.this, rootPaneCheckingEnabled, ls_hocki.toArray(new Hocki[ls_hocki.size()]));
+                selectFrm.setVisible(true);
+            }
+        });
     }
 
     public boolean themGiaoVu(Giaovu gv) {
@@ -273,8 +308,29 @@ public class HomeGVFrm extends JFrame{
         return false;
     }
 
+    public boolean xoaHocKi(Hocki h) {
+        if(HocKiDAO.xoaHocKi(h)) {
+            ls_hocki = HocKiDAO.layDanhSachHocKi();
+            hockiModel.setRowCount(0);
+            updateHockiTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setCurrentSemester(Hocki h) {
+        if(HocKiDAO.setCurrentSemester(h)) {
+            // cap nhat lai ui
+
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void updateGiaovuTable() {
-        if(!ls_giaovu.isEmpty()) {
+        if(ls_giaovu != null) {
             for (int i=0; i<ls_giaovu.size(); i++) {
                 Giaovu g = ls_giaovu.get(i);
                 giaovuModel.addRow(new Object[] {
@@ -286,7 +342,7 @@ public class HomeGVFrm extends JFrame{
     }
 
     public void updateMonhocTable() {
-        if(!ls_monhoc.isEmpty()) {
+        if(ls_monhoc != null) {
             for (int i=0; i < ls_monhoc.size(); i++) {
                 Monhoc m = ls_monhoc.get(i);
                 monhocModel.addRow(new Object[] {
@@ -301,7 +357,8 @@ public class HomeGVFrm extends JFrame{
             for (int i=0; i< ls_hocki.size(); i++) {
                 Hocki h = ls_hocki.get(i);
                 hockiModel.addRow(new Object[] {
-                        i+1, h.getTenHk(), h.getNamHoc(), h.getNgayBatDau(), h.getNgayKetThuc()
+                        i+1, h.getTenHk(), h.getNamHoc(), new SimpleDateFormat("dd/MM/yyyy").format(h.getNgayBatDau())
+                        , new SimpleDateFormat("dd/MM/yyyy").format(h.getNgayKetThuc())
                 });
             }
         }

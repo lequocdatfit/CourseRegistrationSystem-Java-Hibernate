@@ -10,7 +10,7 @@
                 <column name="TenHK" sql-type="varchar(20)" length="20"/>
             </key-property>
             <key-property name="namHoc">
-                <column name="NamHoc" sql-type="varchar(4)" length="4"/>
+                <column name="NamHoc" sql-type="varchar(9)" length="9"/>
             </key-property>
         </composite-id>
         <property name="ngayBatDau">
