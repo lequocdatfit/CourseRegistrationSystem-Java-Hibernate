@@ -1,11 +1,38 @@
 package model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Lophoc {
     private String maLop;
     private Integer tongNam;
     private Integer tongNu;
+    private Set<Sinhvien> ls_sinhvien = new HashSet<Sinhvien>(0);
+
+    public Lophoc() {
+    }
+
+    public Lophoc(String maLop, Integer tongNam, Integer tongNu) {
+        this.maLop = maLop;
+        this.tongNam = tongNam;
+        this.tongNu = tongNu;
+    }
+
+    public Lophoc(String maLop, Integer tongNam, Integer tongNu, Set<Sinhvien> ls_sinhvien) {
+        this.maLop = maLop;
+        this.tongNam = tongNam;
+        this.tongNu = tongNu;
+        this.ls_sinhvien = ls_sinhvien;
+    }
+
+    public Set<Sinhvien> getLs_sinhvien() {
+        return ls_sinhvien;
+    }
+
+    public void setLs_sinhvien(Set<Sinhvien> ls_sinhvien) {
+        this.ls_sinhvien = ls_sinhvien;
+    }
 
     public String getMaLop() {
         return maLop;

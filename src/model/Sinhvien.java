@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class Sinhvien {
+public class Sinhvien implements Serializable {
     private String id;
     private String maSv;
     private String hoVaTen;

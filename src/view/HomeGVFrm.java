@@ -2,11 +2,9 @@ package view;
 
 import controller.GiaoVuDAO;
 import controller.HocKiDAO;
+import controller.LopHocDAO;
 import controller.MonhocDAO;
-import model.Giaovu;
-import model.Hocki;
-import model.Monhoc;
-import model.Sinhvien;
+import model.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -33,12 +31,17 @@ public class HomeGVFrm extends JFrame{
     private JButton btnXoaHocKi;
     private JButton btnSelectHocKi;
     private JLabel txtHocKiHienTai;
+    private JTable tblLopHoc;
+    private JButton btnAddClass;
+    private JButton btnDeleteClass;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
+    private DefaultTableModel lophocModel;
 
 
     private List<Sinhvien> ls_sinhvien;
+    private List<Lophoc> ls_lophoc;
     private List<Giaovu> ls_giaovu;
     private List<Monhoc> ls_monhoc;
     private List<Hocki> ls_hocki;
@@ -71,6 +74,11 @@ public class HomeGVFrm extends JFrame{
                 "STT", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
         });
 
+        lophocModel = (DefaultTableModel) tblLopHoc.getModel();
+        lophocModel.setColumnIdentifiers(new Object[] {
+                "STT", "Mã lớp học", "Tổng sinh viên", "Tổng nam", "Tổng nữ"
+        });
+
         tabbedPane1.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -95,6 +103,10 @@ public class HomeGVFrm extends JFrame{
                             ls_hocki = HocKiDAO.layDanhSachHocKi();
                             hockiModel.setRowCount(0);
                             updateHockiTable();
+                        } else if(index == 3) {
+                            ls_lophoc = LopHocDAO.layDanhSachLopHoc();
+                            lophocModel.setRowCount(0);
+                            updateLopHocTable();
                         }
                     }
                 });
@@ -233,6 +245,36 @@ public class HomeGVFrm extends JFrame{
                 selectFrm.setVisible(true);
             }
         });
+        btnAddClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputLopHocFrm input = new InputLopHocFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                input.setVisible(true);
+            }
+        });
+        btnDeleteClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tblLopHoc.getSelectedRow();
+                if(ls_lophoc.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Không có lớp học nào để xóa!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Chọn một lớp học trên bảng sau đó chọn xóa!");
+                } else {
+                    int output = JOptionPane.showConfirmDialog(rootPane, "Bạn có chắc muốn xóa lớp học",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        if(HomeGVFrm.this.xoaLopHoc(ls_lophoc.get(index))) {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa lớp học thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa lớp học thất bại!");
+                        }
+                    } else if(output == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     public boolean themGiaoVu(Giaovu gv) {
@@ -321,12 +363,32 @@ public class HomeGVFrm extends JFrame{
     public boolean setCurrentSemester(Hocki h) {
         if(HocKiDAO.setCurrentSemester(h)) {
             // cap nhat lai ui
-
-
+            currentSemester = HocKiDAO.layHocKiHienTai();
+            txtHocKiHienTai.setText(currentSemester.getTenHk() + ' ' + currentSemester.getNamHoc());
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean themLopHoc(Lophoc l) {
+        if(LopHocDAO.themLopHoc(l)) {
+            ls_lophoc = LopHocDAO.layDanhSachLopHoc();
+            lophocModel.setRowCount(0);
+            updateLopHocTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean xoaLopHoc(Lophoc l) {
+        if(LopHocDAO.xoaLopHoc(l)) {
+            ls_lophoc = LopHocDAO.layDanhSachLopHoc();
+            lophocModel.setRowCount(0);
+            updateLopHocTable();
+            return true;
+        }
+        return false;
     }
 
     public void updateGiaovuTable() {
@@ -359,6 +421,17 @@ public class HomeGVFrm extends JFrame{
                 hockiModel.addRow(new Object[] {
                         i+1, h.getTenHk(), h.getNamHoc(), new SimpleDateFormat("dd/MM/yyyy").format(h.getNgayBatDau())
                         , new SimpleDateFormat("dd/MM/yyyy").format(h.getNgayKetThuc())
+                });
+            }
+        }
+    }
+
+    public void updateLopHocTable() {
+        if(ls_lophoc != null) {
+            for (int i=0; i< ls_lophoc.size(); i++) {
+                Lophoc l = ls_lophoc.get(i);
+                lophocModel.addRow(new Object[] {
+                        i+1, l.getMaLop(), l.getTongNam() + l.getTongNu(), l.getTongNam(), l.getTongNu()
                 });
             }
         }

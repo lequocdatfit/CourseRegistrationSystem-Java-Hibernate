@@ -14,5 +14,11 @@
         <property name="tongNu">
             <column name="TongNu" sql-type="int(11)" not-null="true"/>
         </property>
+        <set name="ls_sinhvien" inverse="true" fetch="join" lazy="false">
+            <key>
+                <column name="MaLop" not-null="true" length="8" />
+            </key>
+            <one-to-many class="model.Sinhvien" />
+        </set>
     </class>
 </hibernate-mapping>
