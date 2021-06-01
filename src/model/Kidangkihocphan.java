@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 public class Kidangkihocphan {
@@ -9,6 +9,17 @@ public class Kidangkihocphan {
     private String namHoc;
     private Date ngayBatDau;
     private Date ngayKetThuc;
+
+    public Kidangkihocphan() {
+    }
+
+    public Kidangkihocphan(String id, String tenHocKi, String namHoc, Date ngayBatDau, Date ngayKetThuc) {
+        this.id = id;
+        this.tenHocKi = tenHocKi;
+        this.namHoc = namHoc;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+    }
 
     public String getId() {
         return id;

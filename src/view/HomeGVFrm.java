@@ -1,9 +1,6 @@
 package view;
 
-import controller.GiaoVuDAO;
-import controller.HocKiDAO;
-import controller.LopHocDAO;
-import controller.MonhocDAO;
+import controller.*;
 import model.*;
 
 import javax.swing.*;
@@ -35,10 +32,20 @@ public class HomeGVFrm extends JFrame{
     private JButton btnAddClass;
     private JButton btnDeleteClass;
     private JButton btnInfo;
+    private JTable tblKiDangKy;
+    private JTable tblKiDangKiHienTai;
+    private JLabel txtCurrentSemester;
+    private JLabel txtHKHT;
+    private JButton btnAddKiDK;
+    private JLabel txtKiHienTai2;
+    private JTable tblHocPhan;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
     private DefaultTableModel lophocModel;
+    private DefaultTableModel kiDangKyModel;
+    private DefaultTableModel kiDangKyHienTaiModel;
+    private DefaultTableModel hocPhanModel;
 
 
     private List<Sinhvien> ls_sinhvien;
@@ -46,6 +53,9 @@ public class HomeGVFrm extends JFrame{
     private List<Giaovu> ls_giaovu;
     private List<Monhoc> ls_monhoc;
     private List<Hocki> ls_hocki;
+    private List<Kidangkihocphan> ls_KiDangKy;
+    private List<Kidangkihocphan> ls_kiDangKyHienTai;
+    private List<Hocphan> ls_hocPhan;
     private Hocki currentSemester;
     private int selectedIndex;
 
@@ -58,6 +68,12 @@ public class HomeGVFrm extends JFrame{
 
         ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
         ls_monhoc = null;
+
+        hocPhanModel = (DefaultTableModel) tblHocPhan.getModel();
+        hocPhanModel.setColumnIdentifiers(new Object[] {
+                "STT", "Mã môn", "Tên môn", "Số tín chỉ", "Giáo viên lý thuyết", "Tên phòng học", "Ngày trong tuần",
+                "Ca", "Slot"
+        });
 
         giaovuModel = (DefaultTableModel) giaovutbl.getModel();
         giaovuModel.setColumnIdentifiers(new Object[] {
@@ -78,6 +94,16 @@ public class HomeGVFrm extends JFrame{
         lophocModel = (DefaultTableModel) tblLopHoc.getModel();
         lophocModel.setColumnIdentifiers(new Object[] {
                 "STT", "Mã lớp học", "Tổng sinh viên", "Tổng nam", "Tổng nữ"
+        });
+
+        kiDangKyHienTaiModel = (DefaultTableModel) tblKiDangKiHienTai.getModel();
+        kiDangKyHienTaiModel.setColumnIdentifiers(new Object[] {
+                "STT", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
+        });
+
+        kiDangKyModel = (DefaultTableModel) tblKiDangKy.getModel();
+        kiDangKyModel.setColumnIdentifiers(new Object[] {
+                "STT", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
         });
 
         tabbedPane1.addChangeListener(new ChangeListener() {
@@ -108,6 +134,20 @@ public class HomeGVFrm extends JFrame{
                             ls_lophoc = LopHocDAO.layDanhSachLopHoc();
                             lophocModel.setRowCount(0);
                             updateLopHocTable();
+                        } else if(index == 4) {
+                            ls_KiDangKy = KiDangKyDAO.layDanhSachKiDangKyHP();
+                            kiDangKyModel.setRowCount(0);
+                            updateKiDangKyTable();
+
+                            currentSemester = HocKiDAO.layHocKiHienTai();
+                            txtHKHT.setText(currentSemester.getTenHk() + ' ' + currentSemester.getNamHoc());
+                            ls_kiDangKyHienTai = KiDangKyDAO.layDanhSachKiDangKyCuaHocKi(currentSemester);
+                            kiDangKyHienTaiModel.setRowCount(0);
+                            updateKiDangKyHienTaiTable();
+                        } else if(index == 5) {
+                            ls_hocPhan = HocPhanDAO.layDaySachHocPhan();
+                            hocPhanModel.setRowCount(0);
+                            updateHocPhanTable();
                         }
                     }
                 });
@@ -292,6 +332,14 @@ public class HomeGVFrm extends JFrame{
                 }
             }
         });
+        btnAddKiDK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputKiDangKyFrm input = new InputKiDangKyFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                input.setData(currentSemester);
+                input.setVisible(true);
+            }
+        });
     }
 
     public boolean themGiaoVu(Giaovu gv) {
@@ -452,5 +500,54 @@ public class HomeGVFrm extends JFrame{
                 });
             }
         }
+    }
+
+    public void updateHocPhanTable() {
+        if(ls_hocPhan != null) {
+            for (int i=0; i< ls_hocPhan.size(); i++) {
+                Hocphan h = ls_hocPhan.get(i);
+                hocPhanModel.addRow(new Object[] {
+                        i+1, h.getMonHoc().getMaMh(), h.getMonHoc().getTenMh(), h.getMonHoc().getSoTinChi(),
+                        h.getGiaoVien().getHoVaTen(), h.getPhongHoc(), h.getNgayTrongTuan(), h.getCa(), h.getSlot()
+                });
+            }
+        }
+    }
+
+    public void updateKiDangKyTable() {
+        if(ls_KiDangKy != null) {
+            for (int i=0; i< ls_KiDangKy.size(); i++) {
+                Kidangkihocphan k = ls_KiDangKy.get(i);
+                kiDangKyModel.addRow(new Object[] {
+                        i+1, k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
+                        , new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayKetThuc())
+                });
+            }
+        }
+    }
+
+    public void updateKiDangKyHienTaiTable() {
+        if(ls_kiDangKyHienTai != null) {
+            for (int i=0; i< ls_KiDangKy.size(); i++) {
+                Kidangkihocphan k = ls_kiDangKyHienTai.get(i);
+                kiDangKyHienTaiModel.addRow(new Object[] {
+                        i+1, k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
+                        , new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayKetThuc())
+                });
+            }
+        }
+    }
+
+    public boolean themKiDangKyHocPhan(Kidangkihocphan k) {
+        if(KiDangKyDAO.themKiDangKy(k)) {
+            ls_kiDangKyHienTai = KiDangKyDAO.layDanhSachKiDangKyCuaHocKi(currentSemester);
+            ls_KiDangKy = KiDangKyDAO.layDanhSachKiDangKyHP();
+            kiDangKyHienTaiModel.setRowCount(0);
+            kiDangKyModel.setRowCount(0);
+            updateKiDangKyTable();
+            updateKiDangKyHienTaiTable();
+            return true;
+        }
+        return false;
     }
 }

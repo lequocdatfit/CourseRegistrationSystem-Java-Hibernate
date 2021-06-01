@@ -1,17 +1,51 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Hocphan {
+public class Hocphan implements Serializable {
     private String id;
-    private String maMh;
-    private String maGv;
     private String ngayTrongTuan;
     private String ca;
     private Integer slot;
     private String phongHoc;
     private String tenHk;
     private String namHoc;
+    private Monhoc monHoc;
+
+    public Monhoc getMonHoc() {
+        return monHoc;
+    }
+
+    public void setMonHoc(Monhoc monHoc) {
+        this.monHoc = monHoc;
+    }
+
+    private Giaovien giaoVien;
+
+    public Giaovien getGiaoVien() {
+        return giaoVien;
+    }
+
+    public void setGiaoVien(Giaovien giaoVien) {
+        this.giaoVien = giaoVien;
+    }
+
+    public Hocphan() {
+    }
+
+    public Hocphan(String id, String ngayTrongTuan, String ca, Integer slot, String phongHoc, String tenHk, String namHoc, Monhoc monHoc, Giaovien giaoVien) {
+        this.id = id;
+        this.ngayTrongTuan = ngayTrongTuan;
+        this.ca = ca;
+        this.slot = slot;
+        this.phongHoc = phongHoc;
+        this.tenHk = tenHk;
+        this.namHoc = namHoc;
+        this.monHoc = monHoc;
+        this.giaoVien = giaoVien;
+    }
+    
 
     public String getId() {
         return id;
@@ -21,21 +55,6 @@ public class Hocphan {
         this.id = id;
     }
 
-    public String getMaMh() {
-        return maMh;
-    }
-
-    public void setMaMh(String maMh) {
-        this.maMh = maMh;
-    }
-
-    public String getMaGv() {
-        return maGv;
-    }
-
-    public void setMaGv(String maGv) {
-        this.maGv = maGv;
-    }
 
     public String getNgayTrongTuan() {
         return ngayTrongTuan;
@@ -85,16 +104,10 @@ public class Hocphan {
         this.namHoc = namHoc;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hocphan hocphan = (Hocphan) o;
-        return Objects.equals(id, hocphan.id) && Objects.equals(maMh, hocphan.maMh) && Objects.equals(maGv, hocphan.maGv) && Objects.equals(ngayTrongTuan, hocphan.ngayTrongTuan) && Objects.equals(ca, hocphan.ca) && Objects.equals(slot, hocphan.slot) && Objects.equals(phongHoc, hocphan.phongHoc) && Objects.equals(tenHk, hocphan.tenHk) && Objects.equals(namHoc, hocphan.namHoc);
-    }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, maMh, maGv, ngayTrongTuan, ca, slot, phongHoc, tenHk, namHoc);
+        return Objects.hash(id, monHoc, giaoVien, ngayTrongTuan, ca, slot, phongHoc, tenHk, namHoc);
     }
 }

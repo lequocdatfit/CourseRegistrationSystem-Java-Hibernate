@@ -12,7 +12,7 @@
             <column name="TenHocKi" sql-type="varchar(20)" length="20" not-null="true"/>
         </property>
         <property name="namHoc">
-            <column name="NamHoc" sql-type="varchar(4)" length="4" not-null="true"/>
+            <column name="NamHoc" sql-type="varchar(9)" length="9" not-null="true"/>
         </property>
         <property name="ngayBatDau">
             <column name="NgayBatDau" sql-type="date" not-null="true"/>
