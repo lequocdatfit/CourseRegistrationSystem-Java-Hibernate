@@ -34,6 +34,7 @@ public class HomeGVFrm extends JFrame{
     private JTable tblLopHoc;
     private JButton btnAddClass;
     private JButton btnDeleteClass;
+    private JButton btnInfo;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -272,6 +273,22 @@ public class HomeGVFrm extends JFrame{
                     } else if(output == JOptionPane.NO_OPTION) {
                         return;
                     }
+                }
+            }
+        });
+        btnInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tblLopHoc.getSelectedRow();
+                if(ls_lophoc.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Không tồn tại lớp học nào!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Vui lòng chọn 1 lớp học trên bảng!");
+                } else {
+                    Lophoc l = ls_lophoc.get(index);
+                    SinhvienLophocFrm svFrm = new SinhvienLophocFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                    svFrm.setData(l);
+                    svFrm.setVisible(true);
                 }
             }
         });

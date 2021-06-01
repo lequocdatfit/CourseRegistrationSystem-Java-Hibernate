@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 public class Sinhvien implements Serializable {
@@ -12,6 +12,19 @@ public class Sinhvien implements Serializable {
     private Date namNhapHoc;
     private String matKhau;
     private String maLop;
+
+    public Sinhvien() {
+    }
+
+    public Sinhvien(String id, String maSv, String hoVaTen, Boolean gioiTinh, Date namNhapHoc, String matKhau, String maLop) {
+        this.id = id;
+        this.maSv = maSv;
+        this.hoVaTen = hoVaTen;
+        this.gioiTinh = gioiTinh;
+        this.namNhapHoc = namNhapHoc;
+        this.matKhau = matKhau;
+        this.maLop = maLop;
+    }
 
     public String getId() {
         return id;
