@@ -39,6 +39,10 @@ public class HomeGVFrm extends JFrame{
     private JButton btnAddKiDK;
     private JLabel txtKiHienTai2;
     private JTable tblHocPhan;
+    private JButton txtAddHocPhan;
+    private JButton btnDeleteHocPhan;
+    private JButton btnAddHocPhan;
+    private JButton xemDanhSáchĐăngButton;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -46,7 +50,6 @@ public class HomeGVFrm extends JFrame{
     private DefaultTableModel kiDangKyModel;
     private DefaultTableModel kiDangKyHienTaiModel;
     private DefaultTableModel hocPhanModel;
-
 
     private List<Sinhvien> ls_sinhvien;
     private List<Lophoc> ls_lophoc;
@@ -340,6 +343,38 @@ public class HomeGVFrm extends JFrame{
                 input.setVisible(true);
             }
         });
+
+        btnAddHocPhan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputHocPhanFrm input = new InputHocPhanFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                input.setVisible(true);
+            }
+        });
+        btnDeleteHocPhan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tblHocPhan.getSelectedRow();
+                if(ls_hocPhan.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Không có học phần nào để xóa!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Hãy chọn 1 học phần trên bảng!");
+                } else {
+                    Hocphan h = ls_hocPhan.get(index);
+                    int output = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa học phần này?",
+                            "cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        if(HomeGVFrm.this.xoaHocPhan(h)) {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa học phần thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Xóa học phần thất bại!");
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     public boolean themGiaoVu(Giaovu gv) {
@@ -546,6 +581,26 @@ public class HomeGVFrm extends JFrame{
             kiDangKyModel.setRowCount(0);
             updateKiDangKyTable();
             updateKiDangKyHienTaiTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean themHocPhan(Hocphan h) {
+        if(HocPhanDAO.themHocPhan(h)) {
+            ls_hocPhan = HocPhanDAO.layDaySachHocPhan();
+            hocPhanModel.setRowCount(0);
+            updateHocPhanTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean xoaHocPhan(Hocphan h) {
+        if(HocPhanDAO.xoaHocPhan(h)) {
+            ls_hocPhan = HocPhanDAO.layDaySachHocPhan();
+            hocPhanModel.setRowCount(0);
+            updateHocPhanTable();
             return true;
         }
         return false;

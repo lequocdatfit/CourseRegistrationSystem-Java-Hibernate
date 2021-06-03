@@ -52,4 +52,9 @@ public class Monhoc {
     public int hashCode() {
         return Objects.hash(maMh, tenMh, soTinChi);
     }
+
+    @Override
+    public String toString() {
+        return this.tenMh;
+    }
 }

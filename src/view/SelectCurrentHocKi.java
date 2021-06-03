@@ -1,6 +1,8 @@
 package view;
 
+import controller.HocKiDAO;
 import model.Hocki;
+import model.Hocphan;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,12 +32,13 @@ public class SelectCurrentHocKi extends JDialog {
         setLocationRelativeTo(null);
         home = (HomeGVFrm) parent;
 
-        for (Hocki hk: data) {
-            System.out.println(hk.getTenHk());
-        }
+        currentSemester = HocKiDAO.layHocKiHienTai();
+
+
         HockiComboboxModel hockiComboboxModel = new HockiComboboxModel(data);
 
         comboBox1.setModel(hockiComboboxModel);
+        comboBox1.setSelectedItem(currentSemester);
         comboBox1.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {

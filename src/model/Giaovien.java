@@ -1,5 +1,7 @@
 package model;
 
+import controller.GiaoVienDAO;
+
 import java.util.Objects;
 
 public class Giaovien {
@@ -33,5 +35,10 @@ public class Giaovien {
     @Override
     public int hashCode() {
         return Objects.hash(maGv, hoVaTen);
+    }
+
+    @Override
+    public String toString() {
+        return this.getHoVaTen();
     }
 }
