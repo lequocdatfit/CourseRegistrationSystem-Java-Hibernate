@@ -7,6 +7,14 @@ public class SinhvienHocphanPK implements Serializable {
     private String idSinhVien;
     private String idHocPhan;
 
+    public SinhvienHocphanPK() {
+    }
+
+    public SinhvienHocphanPK(String idSinhVien, String idHocPhan) {
+        this.idSinhVien = idSinhVien;
+        this.idHocPhan = idHocPhan;
+    }
+
     public String getIdSinhVien() {
         return idSinhVien;
     }

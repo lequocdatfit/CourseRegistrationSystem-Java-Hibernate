@@ -1,10 +1,12 @@
 package model;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 public class Sinhvien implements Serializable {
+    @Id
     private String id;
     private String maSv;
     private String hoVaTen;

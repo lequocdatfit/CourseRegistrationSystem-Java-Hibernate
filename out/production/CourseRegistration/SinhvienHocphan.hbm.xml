@@ -13,5 +13,14 @@
                 <column name="IdHocPhan" sql-type="varchar(8)" length="8"/>
             </key-property>
         </composite-id>
+        <many-to-one class="model.Sinhvien" name="sinhVien" fetch="join" lazy="false">
+            <column name="IdSinhVien" length="8" unique="true"/>
+        </many-to-one>
+        <many-to-one class="model.Hocphan" name="hocPhan">
+            <column name="IdHocPhan" unique="true" length="8"/>
+        </many-to-one>
+        <property name="ngayDangKy">
+            <column name="NgayDangKy" sql-type="date" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

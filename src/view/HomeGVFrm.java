@@ -42,7 +42,7 @@ public class HomeGVFrm extends JFrame{
     private JButton txtAddHocPhan;
     private JButton btnDeleteHocPhan;
     private JButton btnAddHocPhan;
-    private JButton xemDanhSáchĐăngButton;
+    private JButton btnInfoHocPhan;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -372,6 +372,21 @@ public class HomeGVFrm extends JFrame{
                     } else {
                         return;
                     }
+                }
+            }
+        });
+        btnInfoHocPhan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = tblHocPhan.getSelectedRow();
+                if(ls_hocPhan.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Hiện không có học phần nào!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Hãy chọn 1 học phần trên bảng!");
+                } else {
+                    InfoHocPhanFrm frm = new InfoHocPhanFrm(HomeGVFrm.this, rootPaneCheckingEnabled,
+                            ls_hocPhan.get(index));
+                    frm.setVisible(true);
                 }
             }
         });
