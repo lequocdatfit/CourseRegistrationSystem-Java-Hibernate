@@ -43,7 +43,7 @@ public class LoginFrm extends JFrame {
                             } else {
                                 if(sv.getMatKhau().equals(pwdText)) {
                                     JOptionPane.showMessageDialog(mainPanel, "Đăng nhập thành công!");
-                                    HomeFrm homeFrm = new HomeFrm("Trang chủ");
+                                    HomeFrm homeFrm = new HomeFrm("Trang chủ", sv);
                                     homeFrm.setVisible(true);
                                     setVisible(false);
                                 } else {

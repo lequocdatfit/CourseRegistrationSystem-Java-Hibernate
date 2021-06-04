@@ -148,7 +148,8 @@ public class HomeGVFrm extends JFrame{
                             kiDangKyHienTaiModel.setRowCount(0);
                             updateKiDangKyHienTaiTable();
                         } else if(index == 5) {
-                            ls_hocPhan = HocPhanDAO.layDaySachHocPhan();
+                            currentSemester = HocKiDAO.layHocKiHienTai();
+                            ls_hocPhan = HocPhanDAO.layDaySachHocPhanCuaHocKi(currentSemester);
                             hocPhanModel.setRowCount(0);
                             updateHocPhanTable();
                         }
@@ -603,7 +604,7 @@ public class HomeGVFrm extends JFrame{
 
     public boolean themHocPhan(Hocphan h) {
         if(HocPhanDAO.themHocPhan(h)) {
-            ls_hocPhan = HocPhanDAO.layDaySachHocPhan();
+            ls_hocPhan = HocPhanDAO.layDaySachHocPhanCuaHocKi(currentSemester);
             hocPhanModel.setRowCount(0);
             updateHocPhanTable();
             return true;
