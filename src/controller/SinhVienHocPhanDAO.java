@@ -72,4 +72,22 @@ public class SinhVienHocPhanDAO {
         }
         return true;
     }
+
+    public static boolean huyDangKyHocPhan(SinhvienHocphan h) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(h);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            session.close();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
+    }
 }

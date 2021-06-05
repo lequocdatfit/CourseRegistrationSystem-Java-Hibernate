@@ -27,7 +27,7 @@ public class HomeFrm extends JFrame{
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        this.setSize(600, 650);
+        this.setSize(900, 700);
         this.setLocationRelativeTo(null);
         currentSV = sv;
 
@@ -61,6 +61,30 @@ public class HomeFrm extends JFrame{
                 }
             }
         });
+        btnDeleteDK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Xóa học phần
+                int index = tblHocPhanDaDK.getSelectedRow();
+                if(ls_svhp.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Không có học phần nào để xóa!");
+                } else if (index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Hãy chọn một học phần trên bảng!");
+                } else {
+                    int output = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn hủy đăng ký học phần đã chọn ?",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        if(huyDangKyHocPhan(ls_svhp.get(index))) {
+                            JOptionPane.showMessageDialog(rootPane, "Hủy học phần thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Hủy học phần thất bại!");
+                        }
+                    } else {
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     public void updateHocPhanDKTable() {
@@ -79,6 +103,16 @@ public class HomeFrm extends JFrame{
 
     public boolean dangKyHocPhan(List<SinhvienHocphan> svh) {
         if(SinhVienHocPhanDAO.dangKyNhieuHocPhan(svh)) {
+            ls_svhp = SinhVienHocPhanDAO.layDanhSachHocPhanSVDangKy(currentSV.getId());
+            hocPhanDaDKModel.setRowCount(0);
+            updateHocPhanDKTable();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean huyDangKyHocPhan(SinhvienHocphan h) {
+        if(SinhVienHocPhanDAO.huyDangKyHocPhan(h)) {
             ls_svhp = SinhVienHocPhanDAO.layDanhSachHocPhanSVDangKy(currentSV.getId());
             hocPhanDaDKModel.setRowCount(0);
             updateHocPhanDKTable();

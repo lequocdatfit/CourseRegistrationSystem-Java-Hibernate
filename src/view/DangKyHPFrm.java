@@ -25,7 +25,7 @@ public class DangKyHPFrm extends JDialog {
     private List<Hocphan> ls_hocphan;
     private Hocki currentSemester;
     private Sinhvien currentSinhVien;
-    private List<SinhvienHocphan> sv_hp;
+    //private List<SinhvienHocphan> sv_hp;
 
     private HomeFrm home;
 
@@ -104,10 +104,18 @@ public class DangKyHPFrm extends JDialog {
                             SinhvienHocphan svh = new SinhvienHocphan(currentSinhVien.getId(), currentSinhVien, h.getId(), h, new Date());
                             ls.add(svh);
                             System.out.println(h.getMonHoc());
-                            dispose();
+                            for (SinhvienHocphan svhp : sv_hp) {
+                                if(svhp.getHocPhan().getCa().equals(h.getCa()) &&
+                                        svhp.getHocPhan().getNgayTrongTuan().equals(h.getNgayTrongTuan())) {
+                                    JOptionPane.showMessageDialog(contentPane, "Có học phần trùng ca học " +
+                                            "với học phần đã đăng ký!");
+                                    return;
+                                }
+                            }
                         }
                         if(home.dangKyHocPhan(ls)) {
                             JOptionPane.showMessageDialog(contentPane, "Đăng ký thành công!");
+                            dispose();
                         } else {
                             JOptionPane.showMessageDialog(contentPane, "Đăng ký thất bại!");
                         }

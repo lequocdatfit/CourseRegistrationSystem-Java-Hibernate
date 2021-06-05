@@ -67,7 +67,7 @@ public class HomeGVFrm extends JFrame{
     public HomeGVFrm(String title) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 650);
+        this.setSize(900, 700);
         this.setContentPane(mainPanel);
         this.setLocationRelativeTo(null);
 
