@@ -10,7 +10,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class HomeGVFrm extends JFrame{
     private JPanel mainPanel;
@@ -135,6 +137,7 @@ public class HomeGVFrm extends JFrame{
                             updateHockiTable();
                         } else if(index == 3) {
                             ls_lophoc = LopHocDAO.layDanhSachLopHoc();
+
                             lophocModel.setRowCount(0);
                             updateLopHocTable();
                         } else if(index == 4) {
@@ -546,8 +549,19 @@ public class HomeGVFrm extends JFrame{
         if(ls_lophoc != null) {
             for (int i=0; i< ls_lophoc.size(); i++) {
                 Lophoc l = ls_lophoc.get(i);
+                Set<Sinhvien> ls_sv = l.getLs_sinhvien();
+                int tongSinhVien = ls_sv.size();
+                int tongNam = 0;
+                int tongNu = 0;
+                for (Sinhvien s : ls_sv) {
+                    if (s.getGioiTinh()) {
+                        tongNam += 1;
+                    } else {
+                        tongNu += 1;
+                    }
+                }
                 lophocModel.addRow(new Object[] {
-                        i+1, l.getMaLop(), l.getTongNam() + l.getTongNu(), l.getTongNam(), l.getTongNu()
+                        i+1, l.getMaLop(), tongSinhVien, tongNam, tongNu
                 });
             }
         }

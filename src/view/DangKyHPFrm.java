@@ -1,13 +1,19 @@
 package view;
 
 import controller.HocPhanDAO;
+import controller.SinhVienHocPhanDAO;
 import model.Hocki;
 import model.Hocphan;
+import model.Sinhvien;
+import model.SinhvienHocphan;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class DangKyHPFrm extends JDialog {
@@ -18,8 +24,12 @@ public class DangKyHPFrm extends JDialog {
     private DefaultTableModel hocPhanMoModel;
     private List<Hocphan> ls_hocphan;
     private Hocki currentSemester;
+    private Sinhvien currentSinhVien;
+    private List<SinhvienHocphan> sv_hp;
 
-    public DangKyHPFrm(Frame parent, boolean modal, Hocki h) {
+    private HomeFrm home;
+
+    public DangKyHPFrm(Frame parent, boolean modal, Hocki h, Sinhvien s, List<SinhvienHocphan> sv_hp) {
         super(parent, modal);
         setContentPane(contentPane);
         setTitle("Đăng ký học phần");
@@ -27,18 +37,84 @@ public class DangKyHPFrm extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         pack();
         setLocationRelativeTo(parent);
+        home = (HomeFrm) parent;
+        currentSinhVien = s;
+
+
+        tblHocPhanMo.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tblHocPhanMo.setColumnSelectionAllowed(false);
+        tblHocPhanMo.setRowSelectionAllowed(true);
 
         currentSemester = h;
         ls_hocphan = HocPhanDAO.layDaySachHocPhanCuaHocKi(currentSemester);
-        hocPhanMoModel = (DefaultTableModel) tblHocPhanMo.getModel();
-        hocPhanMoModel.setColumnIdentifiers(new Object[] {
-                "STT", "Mã học phần", "Tên môn học", "Giáo viên", "Ngày học", "Slot"
-        });
+        Iterator<Hocphan> i = ls_hocphan.iterator();
+        while (i.hasNext()) {
+            Hocphan hp = i.next();
+            for (SinhvienHocphan svh :sv_hp) {
+                if(hp.getId().equals(svh.getIdHocPhan())) {
+                    i.remove();
+                }
+            }
+
+        }
+
+        hocPhanMoModel = new DefaultTableModel(new Object[] {
+                "STT", "Mã học phần", "Tên môn học", "Giáo viên", "Ngày học", "Slot", "Chọn"
+        }, 0) {
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                switch (columnIndex) {
+                    case 5:
+                        return Integer.class;
+                    case 6:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
+        tblHocPhanMo.setModel(hocPhanMoModel);
         updateHocPhanMoTable();
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                boolean isSelected = false;
+                // Lấy số lượng học phần cho phép đăng ký;
+                int numberOfHocPhanValid = 8 - sv_hp.size();
+                ArrayList<Integer> selectedRowIndex = new ArrayList<>();
+                for (int i=0; i < tblHocPhanMo.getRowCount(); i++) {
+                    if((Boolean) tblHocPhanMo.getValueAt(i, 6)) {
+                        if(numberOfHocPhanValid == 0) {
+                            JOptionPane.showMessageDialog(contentPane, "Bạn không thể đăng ký hơn 8 học phần!");
+                            return;
+                        }
+                        numberOfHocPhanValid -= 1;
+                        selectedRowIndex.add(i);
+                        isSelected = true;
+                    }
+                }
+                if(isSelected) {
+                    int output = JOptionPane.showConfirmDialog(contentPane, "Bạn muốn đăng ký các học phần đã chọn?",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        List<SinhvienHocphan> ls = new ArrayList<>();
+                        for (Integer i : selectedRowIndex) {
+                            Hocphan h = ls_hocphan.get(i);
+                            SinhvienHocphan svh = new SinhvienHocphan(currentSinhVien.getId(), currentSinhVien, h.getId(), h, new Date());
+                            ls.add(svh);
+                            System.out.println(h.getMonHoc());
+                            dispose();
+                        }
+                        if(home.dangKyHocPhan(ls)) {
+                            JOptionPane.showMessageDialog(contentPane, "Đăng ký thành công!");
+                        } else {
+                            JOptionPane.showMessageDialog(contentPane, "Đăng ký thất bại!");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(contentPane, "Hãy chọn ít nhất 1 học phần!");
+                }
             }
         });
 
@@ -75,12 +151,15 @@ public class DangKyHPFrm extends JDialog {
     }
 
     public void updateHocPhanMoTable() {
-        for (int i =0; i<ls_hocphan.size(); i++) {
-            Hocphan h = ls_hocphan.get(i);
-            hocPhanMoModel.addRow(new Object[] {
-                    i+1, h.getId(), h.getMonHoc().getTenMh(), h.getGiaoVien().getHoVaTen(),
-                    h.getNgayTrongTuan() + ", " + h.getCa() + h.getSlot()
-            });
+        hocPhanMoModel.setRowCount(0);
+        if(ls_hocphan != null) {
+            for (int i=0; i<ls_hocphan.size(); i++) {
+                Hocphan h = ls_hocphan.get(i);
+                hocPhanMoModel.addRow(new Object[] {
+                        i+1, h.getId(), h.getMonHoc().getTenMh(), h.getGiaoVien().getHoVaTen(),
+                        h.getNgayTrongTuan() + ", " + h.getCa(), h.getSlot(), false
+                });
+            }
         }
     }
 

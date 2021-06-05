@@ -11,13 +11,13 @@ public class SinhvienHocphan {
     @Id
     private String idSinhVien;
     @OneToOne
-    @JoinColumn(name = "idSinhVien")
+    @JoinColumn(name = "idSinhVien", updatable = false, insertable = false)
     @MapsId
     private Sinhvien sinhVien;
     @Id
     private String idHocPhan;
     @OneToOne
-    @JoinColumn(name = "idHocPhan")
+    @JoinColumn(name = "idHocPhan", updatable = false, insertable = false)
     @MapsId
     private Hocphan hocPhan;
     private Date ngayDangKy;
@@ -25,11 +25,18 @@ public class SinhvienHocphan {
     public SinhvienHocphan() {
     }
 
-    public SinhvienHocphan(String idSinhVien, Sinhvien sinhVien, String idHocPhan, Hocphan hocPhan) {
+    public SinhvienHocphan(String idSinhVien, String idHocPhan, Date ngayDangKy) {
+        this.idSinhVien = idSinhVien;
+        this.idHocPhan = idHocPhan;
+        this.ngayDangKy = ngayDangKy;
+    }
+
+    public SinhvienHocphan(String idSinhVien, Sinhvien sinhVien, String idHocPhan, Hocphan hocPhan, Date ngayDangKy) {
         this.idSinhVien = idSinhVien;
         this.sinhVien = sinhVien;
         this.idHocPhan = idHocPhan;
         this.hocPhan = hocPhan;
+        this.ngayDangKy = ngayDangKy;
     }
 
     public Date getNgayDangKy() {

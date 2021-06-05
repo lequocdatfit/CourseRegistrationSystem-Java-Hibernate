@@ -1,5 +1,6 @@
 package controller;
 
+import antlr.preprocessor.Hierarchy;
 import model.Hocphan;
 import model.Sinhvien;
 import model.SinhvienHocphan;
@@ -7,8 +8,10 @@ import model.SinhvienHocphanPK;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import utils.HibernateUtil;
 
+import java.sql.Date;
 import java.util.List;
 
 
@@ -43,5 +46,30 @@ public class SinhVienHocPhanDAO {
             session.close();
         }
         return ls;
+    }
+
+    public static boolean dangKyNhieuHocPhan(List<SinhvienHocphan> ls_svhp) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            for (SinhvienHocphan svh : ls_svhp) {
+                Query query = session.createSQLQuery("INSERT INTO sinhvien_hocphan (IdSinhVien, IdHocPhan, NgayDangKy) " +
+                        "VALUES (:idSinhVien, :idHocPhan, :ngayDangKy)");
+                query.setParameter("idSinhVien", svh.getSinhVien().getId());
+                query.setParameter("idHocPhan", svh.getIdHocPhan());
+                query.setParameter("ngayDangKy", new Date(svh.getNgayDangKy().getTime()));
+                query.executeUpdate();
+            }
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            session.close();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
     }
 }

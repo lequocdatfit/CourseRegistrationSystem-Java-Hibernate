@@ -43,6 +43,8 @@ public class HocPhanDAO {
         return ls;
     }
 
+
+
     public static Hocphan layThongTinHocPhan(String maHocPhan) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Hocphan h = null;

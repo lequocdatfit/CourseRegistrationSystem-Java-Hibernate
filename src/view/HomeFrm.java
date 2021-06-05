@@ -54,7 +54,7 @@ public class HomeFrm extends JFrame{
                     }
                 }
                 if(isAvailable) {
-                    DangKyHPFrm frm = new DangKyHPFrm(HomeFrm.this, rootPaneCheckingEnabled, currentSemester);
+                    DangKyHPFrm frm = new DangKyHPFrm(HomeFrm.this, rootPaneCheckingEnabled, currentSemester, currentSV, ls_svhp);
                     frm.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Không có kì đăng ký học phần nào đang diễn ra!");
@@ -77,4 +77,13 @@ public class HomeFrm extends JFrame{
         }
     }
 
+    public boolean dangKyHocPhan(List<SinhvienHocphan> svh) {
+        if(SinhVienHocPhanDAO.dangKyNhieuHocPhan(svh)) {
+            ls_svhp = SinhVienHocPhanDAO.layDanhSachHocPhanSVDangKy(currentSV.getId());
+            hocPhanDaDKModel.setRowCount(0);
+            updateHocPhanDKTable();
+            return true;
+        }
+        return false;
+    }
 }
