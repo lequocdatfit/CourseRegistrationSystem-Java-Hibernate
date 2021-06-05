@@ -43,7 +43,7 @@ public class LoginFrm extends JFrame {
                             } else {
                                 if(sv.getMatKhau().equals(pwdText)) {
                                     JOptionPane.showMessageDialog(mainPanel, "Đăng nhập thành công!");
-                                    HomeFrm homeFrm = new HomeFrm("Trang chủ", sv);
+                                    HomeFrm homeFrm = new HomeFrm("Trang chủ", sv, LoginFrm.this);
                                     homeFrm.setVisible(true);
                                     setVisible(false);
                                 } else {
@@ -57,7 +57,7 @@ public class LoginFrm extends JFrame {
                             } else {
                                 if(gv.getMatKhau().equals(pwdText)) {
                                     JOptionPane.showMessageDialog(mainPanel, "Đăng nhập thành công!");
-                                    HomeGVFrm homeGVFrm = new HomeGVFrm("Trang chủ");
+                                    HomeGVFrm homeGVFrm = new HomeGVFrm("Trang chủ", LoginFrm.this);
                                     homeGVFrm.setVisible(true);
                                     setVisible(false);
                                 } else {

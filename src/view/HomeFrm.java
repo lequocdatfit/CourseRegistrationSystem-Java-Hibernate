@@ -8,6 +8,7 @@ import model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -18,19 +19,21 @@ public class HomeFrm extends JFrame{
     private JTable tblHocPhanDaDK;
     private JButton btnDKHP;
     private JButton btnDeleteDK;
+    private JButton btnSignOut;
     private DefaultTableModel hocPhanDaDKModel;
     private List<SinhvienHocphan> ls_svhp;
     private Sinhvien currentSV;
     private Hocki currentSemester;
+    private LoginFrm loginFrm;
 
-    public HomeFrm(String title, Sinhvien sv) {
+    public HomeFrm(String title, Sinhvien sv, Frame login) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.setSize(900, 700);
         this.setLocationRelativeTo(null);
         currentSV = sv;
-
+        loginFrm = (LoginFrm) login;
         hocPhanDaDKModel = (DefaultTableModel) tblHocPhanDaDK.getModel();
         hocPhanDaDKModel.setColumnIdentifiers(new Object[] {
                 "STT", "Mã học phần", "Tên môn học", "Giáo viên", "Ngày học"
@@ -83,6 +86,13 @@ public class HomeFrm extends JFrame{
                         return;
                     }
                 }
+            }
+        });
+        btnSignOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                loginFrm.setVisible(true);
             }
         });
     }

@@ -7,10 +7,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +45,13 @@ public class HomeGVFrm extends JFrame{
     private JButton btnDeleteHocPhan;
     private JButton btnAddHocPhan;
     private JButton btnInfoHocPhan;
+    private JButton btnSignOut;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JButton cậpNhậtThôngTinButton;
+    private JButton đổiMậtKhẩuButton;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -63,14 +70,16 @@ public class HomeGVFrm extends JFrame{
     private List<Hocphan> ls_hocPhan;
     private Hocki currentSemester;
     private int selectedIndex;
+    private LoginFrm loginFrm;
 
-    public HomeGVFrm(String title) {
+    public HomeGVFrm(String title, Frame login) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 700);
         this.setContentPane(mainPanel);
         this.setLocationRelativeTo(null);
 
+        loginFrm = (LoginFrm) login;
         ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
         ls_monhoc = null;
 
@@ -392,6 +401,13 @@ public class HomeGVFrm extends JFrame{
                             ls_hocPhan.get(index));
                     frm.setVisible(true);
                 }
+            }
+        });
+        btnSignOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                loginFrm.setVisible(true);
             }
         });
     }
