@@ -46,12 +46,13 @@ public class HomeGVFrm extends JFrame{
     private JButton btnAddHocPhan;
     private JButton btnInfoHocPhan;
     private JButton btnSignOut;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JButton cậpNhậtThôngTinButton;
-    private JButton đổiMậtKhẩuButton;
+    private JTextField txtMaGiaoVu;
+    private JTextField txtTenGiaoVu;
+    private JTextField txtDienThoaiGV;
+    private JTextField txtNgaySinhGV;
+    private JButton btnUpdateProfile;
+    private JButton btnChangePass;
+    private JButton btnResetPassword;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -71,14 +72,15 @@ public class HomeGVFrm extends JFrame{
     private Hocki currentSemester;
     private int selectedIndex;
     private LoginFrm loginFrm;
+    private Giaovu giaovu;
 
-    public HomeGVFrm(String title, Frame login) {
+    public HomeGVFrm(String title, Frame login, Giaovu gv) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 700);
         this.setContentPane(mainPanel);
         this.setLocationRelativeTo(null);
-
+        giaovu = gv;
         loginFrm = (LoginFrm) login;
         ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
         ls_monhoc = null;
@@ -164,6 +166,8 @@ public class HomeGVFrm extends JFrame{
                             ls_hocPhan = HocPhanDAO.layDaySachHocPhanCuaHocKi(currentSemester);
                             hocPhanModel.setRowCount(0);
                             updateHocPhanTable();
+                        } else if(index == 6) {
+                            updateInfoGiaoVu(giaovu);
                         }
                     }
                 });
@@ -256,7 +260,8 @@ public class HomeGVFrm extends JFrame{
                         if(HomeGVFrm.this.xoaMonHoc(ls_monhoc.get(index))) {
                             JOptionPane.showMessageDialog(rootPane, "Xóa thành công!");
                         } else {
-                            JOptionPane.showMessageDialog(rootPane, "Xóa thất bại!");
+                            JOptionPane.showMessageDialog(rootPane, "Xóa thất bại! Đang có học phần của môn học này." +
+                                    "Để xóa môn học, hãy xóa tất cả học phần của các học kỳ có môn học này.");
                         }
                     } else if(output == JOptionPane.NO_OPTION) {
                         return;
@@ -324,7 +329,8 @@ public class HomeGVFrm extends JFrame{
                         if(HomeGVFrm.this.xoaLopHoc(ls_lophoc.get(index))) {
                             JOptionPane.showMessageDialog(rootPane, "Xóa lớp học thành công!");
                         } else {
-                            JOptionPane.showMessageDialog(rootPane, "Xóa lớp học thất bại!");
+                            JOptionPane.showMessageDialog(rootPane, "Xóa lớp học thất bại! " +
+                                    "Đang có học sinh thuộc lớp học này!");
                         }
                     } else if(output == JOptionPane.NO_OPTION) {
                         return;
@@ -380,7 +386,7 @@ public class HomeGVFrm extends JFrame{
                         if(HomeGVFrm.this.xoaHocPhan(h)) {
                             JOptionPane.showMessageDialog(rootPane, "Xóa học phần thành công!");
                         } else {
-                            JOptionPane.showMessageDialog(rootPane, "Xóa học phần thất bại!");
+                            JOptionPane.showMessageDialog(rootPane, "Xóa học phần thất bại! Học phần đã có sinh viên đăng ký.");
                         }
                     } else {
                         return;
@@ -408,6 +414,46 @@ public class HomeGVFrm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 loginFrm.setVisible(true);
+            }
+        });
+        btnUpdateProfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EditGiaoVuProfileFrm frm = new EditGiaoVuProfileFrm(HomeGVFrm.this, rootPaneCheckingEnabled);
+                frm.setEditData(giaovu);
+                frm.setVisible(true);
+            }
+        });
+        btnChangePass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChangePassFrm frm = new ChangePassFrm(HomeGVFrm.this, rootPaneCheckingEnabled, giaovu);
+                frm.setVisible(true);
+            }
+        });
+        btnResetPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = giaovutbl.getSelectedRow();
+                if(ls_giaovu.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Không có giáo vụ nào!");
+                } else if(index == -1) {
+                    JOptionPane.showMessageDialog(rootPane, "Hãy chọn 1 giáo vụ trên bảng!");
+                } else {
+                    int output = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn reset mật khẩu giáo vụ này?",
+                            "Cảnh báo", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+                    if(output == JOptionPane.YES_OPTION) {
+                        Giaovu selectedGv = ls_giaovu.get(index);
+                        selectedGv.setMatKhau("demo@123");
+                        if(GiaoVuDAO.capNhatThongTinGiaoVu(selectedGv)) {
+                            JOptionPane.showMessageDialog(rootPane, "Reset mật khẩu thành công! Mật khẩu được đổi thành demo@123");
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Reset mật khẩu thất bại!");
+                        }
+                    } else {
+                        return;
+                    }
+                }
             }
         });
     }
@@ -609,7 +655,7 @@ public class HomeGVFrm extends JFrame{
 
     public void updateKiDangKyHienTaiTable() {
         if(ls_kiDangKyHienTai != null) {
-            for (int i=0; i< ls_KiDangKy.size(); i++) {
+            for (int i=0; i< ls_kiDangKyHienTai.size(); i++) {
                 Kidangkihocphan k = ls_kiDangKyHienTai.get(i);
                 kiDangKyHienTaiModel.addRow(new Object[] {
                         i+1, k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
@@ -650,5 +696,23 @@ public class HomeGVFrm extends JFrame{
             return true;
         }
         return false;
+    }
+
+    public boolean capNhatThongTinGiaoVu(Giaovu gv) {
+        if(GiaoVuDAO.capNhatThongTinGiaoVu(gv)) {
+            giaovu = GiaoVuDAO.LayThongTinGiaoVu(giaovu.getMaGiaoVu());
+            updateInfoGiaoVu(giaovu);
+            return true;
+        }
+        return false;
+    }
+
+    public void updateInfoGiaoVu(Giaovu gv) {
+        if(giaovu != null) {
+            txtMaGiaoVu.setText(gv.getMaGiaoVu());
+            txtTenGiaoVu.setText(gv.getHoVaTen());
+            txtDienThoaiGV.setText(gv.getDienThoai());
+            txtNgaySinhGV.setText(new SimpleDateFormat("dd/MM/yyyy").format(gv.getNgaySinh()));
+        }
     }
 }

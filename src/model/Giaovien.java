@@ -8,6 +8,7 @@ public class Giaovien {
     private String maGv;
     private String hoVaTen;
 
+
     public String getMaGv() {
         return maGv;
     }

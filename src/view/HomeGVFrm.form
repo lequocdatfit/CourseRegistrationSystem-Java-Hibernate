@@ -31,7 +31,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="b94cb" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="b94cb" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Giáo vụ"/>
@@ -41,7 +41,7 @@
             <children>
               <scrollpane id="5f457">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -79,7 +79,7 @@
               <grid id="939f6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -95,6 +95,14 @@
                   </component>
                 </children>
               </grid>
+              <component id="4b5eb" class="javax.swing.JButton" binding="btnResetPassword">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Reset mật khẩu"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="e0814" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -520,13 +528,15 @@
                       <text value="Mã giáo vụ"/>
                     </properties>
                   </component>
-                  <component id="5f516" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+                  <component id="5f516" class="javax.swing.JTextField" binding="txtMaGiaoVu">
                     <constraints>
                       <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="f5598" class="javax.swing.JLabel">
                     <constraints>
@@ -536,13 +546,15 @@
                       <text value="Họ và tên"/>
                     </properties>
                   </component>
-                  <component id="664da" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+                  <component id="664da" class="javax.swing.JTextField" binding="txtTenGiaoVu">
                     <constraints>
                       <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="d2c36" class="javax.swing.JLabel">
                     <constraints>
@@ -552,13 +564,15 @@
                       <text value="Điện thoại"/>
                     </properties>
                   </component>
-                  <component id="274e1" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+                  <component id="274e1" class="javax.swing.JTextField" binding="txtDienThoaiGV">
                     <constraints>
                       <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="b96c2" class="javax.swing.JLabel">
                     <constraints>
@@ -568,13 +582,15 @@
                       <text value="Ngày sinh"/>
                     </properties>
                   </component>
-                  <component id="25904" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+                  <component id="25904" class="javax.swing.JTextField" binding="txtNgaySinhGV">
                     <constraints>
                       <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <hspacer id="9dfa1">
                     <constraints>
@@ -606,7 +622,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="23bf2" class="javax.swing.JButton" binding="cậpNhậtThôngTinButton" default-binding="true">
+                  <component id="23bf2" class="javax.swing.JButton" binding="btnUpdateProfile">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -614,7 +630,7 @@
                       <text value="Cập nhật thông tin"/>
                     </properties>
                   </component>
-                  <component id="b73a0" class="javax.swing.JButton" binding="đổiMậtKhẩuButton" default-binding="true">
+                  <component id="b73a0" class="javax.swing.JButton" binding="btnChangePass">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>

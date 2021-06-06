@@ -99,4 +99,25 @@ public class GiaoVuDAO {
         }
         return true;
     }
+
+    public static boolean capNhatThongTinGiaoVu(Giaovu gv) {
+        if(GiaoVuDAO.LayThongTinGiaoVu(gv.getMaGiaoVu()) == null) {
+            return false;
+        }
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.update(gv);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+            e.printStackTrace();
+            session.close();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
+    }
 }

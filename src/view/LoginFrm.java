@@ -57,7 +57,7 @@ public class LoginFrm extends JFrame {
                             } else {
                                 if(gv.getMatKhau().equals(pwdText)) {
                                     JOptionPane.showMessageDialog(mainPanel, "Đăng nhập thành công!");
-                                    HomeGVFrm homeGVFrm = new HomeGVFrm("Trang chủ", LoginFrm.this);
+                                    HomeGVFrm homeGVFrm = new HomeGVFrm("Trang chủ", LoginFrm.this, gv);
                                     homeGVFrm.setVisible(true);
                                     setVisible(false);
                                 } else {
@@ -84,10 +84,14 @@ public class LoginFrm extends JFrame {
                     btnChange.setText("Bạn là giáo vụ ?");
                     setTitle("Đăng nhập sinh viên");
                     usernameLb.setText("Mã sinh viên");
+                    txtUsername.setText("18120305");
+                    txtPassword.setText("123456abc");
                 } else {
                     btnChange.setText("Bạn là sinh viên ?");
                     setTitle("Đăng nhập giáo vụ");
                     usernameLb.setText("Mã giáo vụ");
+                    txtUsername.setText("001");
+                    txtPassword.setText("123456789");
                 }
             }
         });

@@ -89,10 +89,10 @@ public class HocPhanDAO {
             transaction = session.beginTransaction();
             session.delete(h);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
-            session.close();
+            //session.close();
             return false;
         } finally {
             session.close();

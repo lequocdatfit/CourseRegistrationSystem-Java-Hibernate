@@ -73,7 +73,6 @@ public class LopHocDAO {
         } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-            session.close();
             return false;
         } finally {
             session.close();
