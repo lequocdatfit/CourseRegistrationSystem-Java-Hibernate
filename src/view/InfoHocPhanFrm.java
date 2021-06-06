@@ -1,17 +1,18 @@
 package view;
 
+import controller.GiaoVuDAO;
 import controller.HocPhanDAO;
 import controller.SinhVienHocPhanDAO;
+import model.Giaovu;
 import model.Hocphan;
-import model.Monhoc;
 import model.Sinhvien;
 import model.SinhvienHocphan;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
 import java.util.List;
 
 public class InfoHocPhanFrm extends JDialog {
@@ -19,6 +20,9 @@ public class InfoHocPhanFrm extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable tblSinhVienHocPhan;
+    private JTextField txtMaSV;
+    private JButton btnSearchSV;
+    private JTextField txtTenSV;
     private DefaultTableModel sinhVienHocPhanModel;
     private HomeGVFrm home;
     private List<SinhvienHocphan> sv_hp;
@@ -65,6 +69,23 @@ public class InfoHocPhanFrm extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        btnSearchSV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sv_hp = SinhVienHocPhanDAO.layDanhSachSinhVienDangKyHP(selectedHocPhan.getId());
+                String searchMaStr = txtMaSV.getText();
+                String searchTenStr = txtTenSV.getText();
+                Iterator<SinhvienHocphan> i = sv_hp.iterator();
+                while (i.hasNext()) {
+                    SinhvienHocphan svh = i.next();
+                    if(!svh.getSinhVien().getHoVaTen().toLowerCase().contains(searchTenStr.toLowerCase()) ||
+                            !svh.getSinhVien().getMaSv().toLowerCase().contains(searchMaStr.toLowerCase())) {
+                        i.remove();
+                    }
+                }
+                updateSinhVienHocPhanTable();
+            }
+        });
     }
 
     private void onOK() {
@@ -78,6 +99,7 @@ public class InfoHocPhanFrm extends JDialog {
     }
 
     public void updateSinhVienHocPhanTable() {
+        sinhVienHocPhanModel.setRowCount(0);
         if(sv_hp != null) {
             for (int i=0; i<sv_hp.size(); i++) {
                 SinhvienHocphan svh = sv_hp.get(i);

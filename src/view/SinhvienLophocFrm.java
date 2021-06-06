@@ -1,8 +1,10 @@
 package view;
 
 import controller.LopHocDAO;
+import controller.MonhocDAO;
 import controller.SinhVienDAO;
 import model.Lophoc;
+import model.Monhoc;
 import model.Sinhvien;
 
 import javax.swing.*;
@@ -23,6 +25,8 @@ SinhvienLophocFrm extends JDialog {
     private JButton thêmSinhViênButton;
     private JButton btnEdit;
     private JButton btnReset;
+    private JTextField txtSearchSv;
+    private JButton btnSearchSV;
     private DefaultTableModel modelSinhvien;
     private List<Sinhvien> ls_sinhvien;
     private Lophoc l;
@@ -107,6 +111,21 @@ SinhvienLophocFrm extends JDialog {
                 }
             }
         });
+        btnSearchSV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                capNhatDanhSachSinhVien2();
+                String searchStr = txtSearchSv.getText();
+                Iterator<Sinhvien> i = ls_sinhvien.iterator();
+                while (i.hasNext()) {
+                    Sinhvien s = i.next();
+                    if(!s.getHoVaTen().toLowerCase().contains(searchStr.toLowerCase())) {
+                        i.remove();
+                    }
+                }
+                updateSinhVienTable();
+            }
+        });
     }
 
     private void onOK() {
@@ -120,6 +139,7 @@ SinhvienLophocFrm extends JDialog {
     }
 
     public void updateSinhVienTable() {
+        modelSinhvien.setRowCount(0);
         if(ls_sinhvien != null) {
             for (int i=0; i< ls_sinhvien.size(); i++) {
                 Sinhvien s = ls_sinhvien.get(i);
@@ -155,6 +175,16 @@ SinhvienLophocFrm extends JDialog {
         }
         modelSinhvien.setRowCount(0);
         updateSinhVienTable();
+    }
+
+    public void capNhatDanhSachSinhVien2() {
+        l = LopHocDAO.layThongTinLopHoc(l.getMaLop());
+        Iterator<Sinhvien> i = l.getLs_sinhvien().iterator();
+        ls_sinhvien = new ArrayList<Sinhvien>();
+        while (i.hasNext()) {
+            Sinhvien s = i.next();
+            ls_sinhvien.add(s);
+        }
     }
 
     public boolean themSinhVien(Sinhvien s) {
