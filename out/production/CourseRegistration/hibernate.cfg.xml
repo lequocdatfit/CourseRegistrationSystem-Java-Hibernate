@@ -8,6 +8,9 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.username">bf86ff5360174a</property>
         <property name="connection.password">2f77b668</property>
+        <property name="connection.autoReconnect">true</property>
+        <property name="connection.autoReconnectForPools">true</property>
+        <property name="connection.is-connection-validation-required">true</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
 

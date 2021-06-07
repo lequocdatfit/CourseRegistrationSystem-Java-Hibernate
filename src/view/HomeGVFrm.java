@@ -10,7 +10,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +55,12 @@ public class HomeGVFrm extends JFrame{
     private JButton btnUpdateProfile;
     private JButton btnChangePass;
     private JButton btnResetPassword;
+    private JTextField txtSearchGiaoVu;
+    private JButton btnSearchGiaoVu;
+    private JTextField txtSearchMonHoc;
+    private JButton btnSearchMonHoc;
+    private JTextField txtSearchHocPhan;
+    private JButton btnSearch;
     private DefaultTableModel giaovuModel;
     private DefaultTableModel monhocModel;
     private DefaultTableModel hockiModel;
@@ -456,6 +464,52 @@ public class HomeGVFrm extends JFrame{
                 }
             }
         });
+        btnSearchGiaoVu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ls_giaovu = GiaoVuDAO.LayDanhSachGiaoVu();
+                String searchStr = txtSearchGiaoVu.getText();
+                Iterator<Giaovu> i = ls_giaovu.iterator();
+                while (i.hasNext()) {
+                    Giaovu g = i.next();
+                    if(!g.getHoVaTen().toLowerCase().contains(searchStr.toLowerCase())) {
+                        i.remove();
+                    }
+                }
+                updateGiaovuTable();
+            }
+        });
+        btnSearchGiaoVu.setMnemonic(KeyEvent.VK_ENTER);
+        btnSearchMonHoc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ls_monhoc = MonhocDAO.LayDanhSachMonHoc();
+                String searchStr = txtSearchMonHoc.getText();
+                Iterator<Monhoc> i = ls_monhoc.iterator();
+                while (i.hasNext()) {
+                    Monhoc m = i.next();
+                    if(!m.getTenMh().toLowerCase().contains(searchStr.toLowerCase())) {
+                        i.remove();
+                    }
+                }
+                updateMonhocTable();
+            }
+        });
+        btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ls_hocPhan = HocPhanDAO.layDaySachHocPhanCuaHocKi(currentSemester);
+                String searchStr = txtSearchHocPhan.getText();
+                Iterator<Hocphan> i = ls_hocPhan.iterator();
+                while (i.hasNext()) {
+                    Hocphan h = i.next();
+                    if(!h.getMonHoc().getTenMh().toLowerCase().contains(searchStr.toLowerCase())) {
+                        i.remove();
+                    }
+                }
+                updateHocPhanTable();
+            }
+        });
     }
 
     public boolean themGiaoVu(Giaovu gv) {
@@ -573,6 +627,7 @@ public class HomeGVFrm extends JFrame{
     }
 
     public void updateGiaovuTable() {
+        giaovuModel.setRowCount(0);
         if(ls_giaovu != null) {
             for (int i=0; i<ls_giaovu.size(); i++) {
                 Giaovu g = ls_giaovu.get(i);
@@ -585,6 +640,7 @@ public class HomeGVFrm extends JFrame{
     }
 
     public void updateMonhocTable() {
+        monhocModel.setRowCount(0);
         if(ls_monhoc != null) {
             for (int i=0; i < ls_monhoc.size(); i++) {
                 Monhoc m = ls_monhoc.get(i);
@@ -630,6 +686,7 @@ public class HomeGVFrm extends JFrame{
     }
 
     public void updateHocPhanTable() {
+        hocPhanModel.setRowCount(0);
         if(ls_hocPhan != null) {
             for (int i=0; i< ls_hocPhan.size(); i++) {
                 Hocphan h = ls_hocPhan.get(i);

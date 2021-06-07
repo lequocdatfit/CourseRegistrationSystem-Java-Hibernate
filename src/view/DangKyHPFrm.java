@@ -50,12 +50,16 @@ public class DangKyHPFrm extends JDialog {
         Iterator<Hocphan> i = ls_hocphan.iterator();
         while (i.hasNext()) {
             Hocphan hp = i.next();
-            for (SinhvienHocphan svh :sv_hp) {
-                if(hp.getId().equals(svh.getIdHocPhan())) {
-                    i.remove();
+            List<SinhvienHocphan> dsdk = SinhVienHocPhanDAO.layDanhSachSinhVienDangKyHP(hp.getId());
+            if(dsdk.size() == hp.getSlot()) {
+                i.remove();
+            } else {
+                for (SinhvienHocphan svh :sv_hp) {
+                    if(hp.getId().equals(svh.getIdHocPhan())) {
+                        i.remove();
+                    }
                 }
             }
-
         }
 
         hocPhanMoModel = new DefaultTableModel(new Object[] {
@@ -117,7 +121,9 @@ public class DangKyHPFrm extends JDialog {
                             JOptionPane.showMessageDialog(contentPane, "Đăng ký thành công!");
                             dispose();
                         } else {
-                            JOptionPane.showMessageDialog(contentPane, "Đăng ký thất bại!");
+                            JOptionPane.showMessageDialog(contentPane, "Có một số học phần đăng ký không thành công!");
+                            home.updateHocPhanDKTable();
+                            dispose();
                         }
                     }
                 } else {
@@ -163,9 +169,10 @@ public class DangKyHPFrm extends JDialog {
         if(ls_hocphan != null) {
             for (int i=0; i<ls_hocphan.size(); i++) {
                 Hocphan h = ls_hocphan.get(i);
+                List<SinhvienHocphan> sv_hp = SinhVienHocPhanDAO.layDanhSachSinhVienDangKyHP(h.getId());
                 hocPhanMoModel.addRow(new Object[] {
                         i+1, h.getId(), h.getMonHoc().getTenMh(), h.getGiaoVien().getHoVaTen(),
-                        h.getNgayTrongTuan() + ", " + h.getCa(), h.getSlot(), false
+                        h.getNgayTrongTuan() + ", " + h.getCa(), sv_hp.size() +"/"+ h.getSlot(), false
                 });
             }
         }

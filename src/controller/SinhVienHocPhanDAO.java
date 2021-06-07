@@ -48,12 +48,19 @@ public class SinhVienHocPhanDAO {
         return ls;
     }
 
-    public static boolean dangKyNhieuHocPhan(List<SinhvienHocphan> ls_svhp) {
+    synchronized public static boolean dangKyNhieuHocPhan(List<SinhvienHocphan> ls_svhp) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        boolean isOk = true;
         try {
             transaction = session.beginTransaction();
             for (SinhvienHocphan svh : ls_svhp) {
+                Hocphan h = HocPhanDAO.layThongTinHocPhan(svh.getIdHocPhan());
+                List<SinhvienHocphan> dsdk = SinhVienHocPhanDAO.layDanhSachSinhVienDangKyHP(h.getId());
+                if(dsdk.size() >= h.getSlot()) {
+                    isOk = false;
+                    continue;
+                }
                 Query query = session.createSQLQuery("INSERT INTO sinhvien_hocphan (IdSinhVien, IdHocPhan, NgayDangKy) " +
                         "VALUES (:idSinhVien, :idHocPhan, :ngayDangKy)");
                 query.setParameter("idSinhVien", svh.getSinhVien().getId());
@@ -65,12 +72,11 @@ public class SinhVienHocPhanDAO {
         } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-            session.close();
             return false;
         } finally {
             session.close();
         }
-        return true;
+        return isOk;
     }
 
     public static boolean huyDangKyHocPhan(SinhvienHocphan h) {
