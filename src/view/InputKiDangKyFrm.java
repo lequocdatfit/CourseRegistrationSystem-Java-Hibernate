@@ -54,7 +54,8 @@ public class InputKiDangKyFrm extends JDialog {
                         JOptionPane.showMessageDialog(contentPane, "Thêm kì đăng ký học phần thành công!");
                         dispose();
                     } else {
-                        JOptionPane.showMessageDialog(contentPane, "Thêm kì đăng ký học phần thất bại!");
+                        JOptionPane.showMessageDialog(contentPane, "Thêm kì đăng ký học phần thất bại! " +
+                                "(Id không được trùng)");
                     }
                 }
             }

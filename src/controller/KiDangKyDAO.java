@@ -68,7 +68,7 @@ public class KiDangKyDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            session.close();
+            //session.close();
             e.printStackTrace();
             return false;
         } finally {

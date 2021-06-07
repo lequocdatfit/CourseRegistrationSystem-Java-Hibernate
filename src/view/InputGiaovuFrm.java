@@ -60,7 +60,7 @@ public class InputGiaovuFrm extends JDialog {
                         txtDienThoai.setText("");
                         txtNgaySinh.setText("");
                     } else {
-                        JOptionPane.showMessageDialog(contentPane, "Thêm thất bại! (lỗi connection)");
+                        JOptionPane.showMessageDialog(contentPane, "Thêm thất bại! (Mã giáo vụ không được trùng)");
                     }
                 }
             }

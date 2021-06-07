@@ -50,7 +50,7 @@ public class MonhocDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            session.close();
+            //session.close();
             e.printStackTrace();
             return false;
         } finally {
@@ -72,7 +72,7 @@ public class MonhocDAO {
         } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-            session.close();
+            //session.close();
             return false;
         } finally {
             session.close();

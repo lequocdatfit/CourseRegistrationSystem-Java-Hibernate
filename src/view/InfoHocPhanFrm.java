@@ -31,8 +31,9 @@ public class InfoHocPhanFrm extends JDialog {
         super(parent, modal);
         setContentPane(contentPane);
         setModal(true);
+        setTitle("Danh sách đăng ký");
         getRootPane().setDefaultButton(buttonOK);
-        pack();
+        setSize(800, 600);
         setLocationRelativeTo(parent);
         home = (HomeGVFrm) parent;
 

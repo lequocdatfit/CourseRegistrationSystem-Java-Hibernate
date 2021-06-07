@@ -49,7 +49,7 @@ public class InputHocKiFrm extends JDialog {
                     if(home.themHocKi(h)) {
                         JOptionPane.showMessageDialog(contentPane, "Thêm thành công!");
                     } else {
-                        JOptionPane.showMessageDialog(contentPane, "Thêm thất bại!");
+                        JOptionPane.showMessageDialog(contentPane, "Thêm thất bại! (Trùng tên học kì và năm học)");
                     }
                 }
             }

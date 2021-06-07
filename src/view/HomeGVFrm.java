@@ -95,7 +95,7 @@ public class HomeGVFrm extends JFrame{
 
         hocPhanModel = (DefaultTableModel) tblHocPhan.getModel();
         hocPhanModel.setColumnIdentifiers(new Object[] {
-                "STT", "Mã môn", "Tên môn", "Số tín chỉ", "Giáo viên lý thuyết", "Tên phòng học", "Ngày trong tuần",
+                "STT", "Mã học phần", "Mã môn", "Tên môn", "Số tín chỉ", "Giáo viên lý thuyết", "Tên phòng học", "Ngày trong tuần",
                 "Ca", "Slot"
         });
 
@@ -122,12 +122,12 @@ public class HomeGVFrm extends JFrame{
 
         kiDangKyHienTaiModel = (DefaultTableModel) tblKiDangKiHienTai.getModel();
         kiDangKyHienTaiModel.setColumnIdentifiers(new Object[] {
-                "STT", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
+                "STT", "Id kỳ đăng ký", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
         });
 
         kiDangKyModel = (DefaultTableModel) tblKiDangKy.getModel();
         kiDangKyModel.setColumnIdentifiers(new Object[] {
-                "STT", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
+                "STT", "Id kỳ đăng ký", "Tên học kì", "Năm học", "Ngày bắt đầu", "Ngày kết thúc"
         });
 
         tabbedPane1.addChangeListener(new ChangeListener() {
@@ -691,7 +691,7 @@ public class HomeGVFrm extends JFrame{
             for (int i=0; i< ls_hocPhan.size(); i++) {
                 Hocphan h = ls_hocPhan.get(i);
                 hocPhanModel.addRow(new Object[] {
-                        i+1, h.getMonHoc().getMaMh(), h.getMonHoc().getTenMh(), h.getMonHoc().getSoTinChi(),
+                        i+1, h.getId(), h.getMonHoc().getMaMh(), h.getMonHoc().getTenMh(), h.getMonHoc().getSoTinChi(),
                         h.getGiaoVien().getHoVaTen(), h.getPhongHoc(), h.getNgayTrongTuan(), h.getCa(), h.getSlot()
                 });
             }
@@ -703,7 +703,7 @@ public class HomeGVFrm extends JFrame{
             for (int i=0; i< ls_KiDangKy.size(); i++) {
                 Kidangkihocphan k = ls_KiDangKy.get(i);
                 kiDangKyModel.addRow(new Object[] {
-                        i+1, k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
+                        i+1, k.getId(),  k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
                         , new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayKetThuc())
                 });
             }
@@ -715,7 +715,7 @@ public class HomeGVFrm extends JFrame{
             for (int i=0; i< ls_kiDangKyHienTai.size(); i++) {
                 Kidangkihocphan k = ls_kiDangKyHienTai.get(i);
                 kiDangKyHienTaiModel.addRow(new Object[] {
-                        i+1, k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
+                        i+1, k.getId(), k.getTenHocKi(), k.getNamHoc(),new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayBatDau())
                         , new SimpleDateFormat("dd/MM/yyyy").format(k.getNgayKetThuc())
                 });
             }

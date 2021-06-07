@@ -46,7 +46,8 @@ public class InputMonHocFrm extends JDialog {
                      if(home.themMonHoc(m)) {
                          JOptionPane.showMessageDialog(contentPane, "Thêm môn học thành công!");
                      } else {
-                         JOptionPane.showMessageDialog(contentPane, "Thêm môn học thất bại");
+                         JOptionPane.showMessageDialog(contentPane, "Thêm môn học thất bại! " +
+                                 "(Mã môn học không được trùng)");
                      }
                 }
 

@@ -91,7 +91,7 @@ public class InputHocPhanFrm extends JDialog {
                     if(home.themHocPhan(h)) {
                         JOptionPane.showMessageDialog(contentPane, "Thêm học phần thành công!");
                     } else {
-                        JOptionPane.showMessageDialog(contentPane, "Thêm học phần thất bại!");
+                        JOptionPane.showMessageDialog(contentPane, "Thêm học phần thất bại! (Mã học phần không được trùng)");
                     }
                 }
             }

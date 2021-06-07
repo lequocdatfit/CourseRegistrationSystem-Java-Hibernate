@@ -39,7 +39,7 @@ SinhvienLophocFrm extends JDialog {
         setModal(true);
         setTitle("Danh sách sinh viên");
         getRootPane().setDefaultButton(buttonOK);
-        pack();
+        setSize(800, 600);
         setLocationRelativeTo(home);
         home = (HomeGVFrm) parent;
 
@@ -144,7 +144,7 @@ SinhvienLophocFrm extends JDialog {
             for (int i=0; i< ls_sinhvien.size(); i++) {
                 Sinhvien s = ls_sinhvien.get(i);
                 modelSinhvien.addRow(new Object[] {
-                        i+1, s.getId(), s.getMaSv(), s.getHoVaTen(), s.getGioiTinh(),
+                        i+1, s.getId(), s.getMaSv(), s.getHoVaTen(), s.getGioiTinh() ? "Nam": "Nữ",
                         new SimpleDateFormat("dd/MM/yyyy").format(s.getNamNhapHoc()), s.getMaLop()
                 });
             }

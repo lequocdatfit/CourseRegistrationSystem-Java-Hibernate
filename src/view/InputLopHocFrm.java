@@ -35,7 +35,7 @@ public class InputLopHocFrm extends JDialog {
                 if(((HomeGVFrm) parent).themLopHoc(l)) {
                     JOptionPane.showMessageDialog(contentPane, "Thêm lớp học thành công!");
                 } else {
-                    JOptionPane.showMessageDialog(contentPane, "Thêm lớp học thất bại!");
+                    JOptionPane.showMessageDialog(contentPane, "Thêm lớp học thất bại! Mã lớp học không được trùng");
                 }
             }
         });

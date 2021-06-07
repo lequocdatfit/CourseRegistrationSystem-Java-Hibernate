@@ -51,7 +51,7 @@ public class HocKiDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            session.close();
+            //session.close();
             e.printStackTrace();
             return false;
         } finally {
@@ -72,7 +72,7 @@ public class HocKiDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            session.close();
+            //session.close();
             e.printStackTrace();
             return false;
         } finally {
@@ -102,7 +102,7 @@ public class HocKiDAO {
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-            session.close();
+            //session.close();
             e.printStackTrace();
             return false;
         } finally {

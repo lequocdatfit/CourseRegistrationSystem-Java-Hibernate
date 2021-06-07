@@ -35,7 +35,7 @@ public class DangKyHPFrm extends JDialog {
         setTitle("Đăng ký học phần");
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        pack();
+        setSize(800, 600);
         setLocationRelativeTo(parent);
         home = (HomeFrm) parent;
         currentSinhVien = s;

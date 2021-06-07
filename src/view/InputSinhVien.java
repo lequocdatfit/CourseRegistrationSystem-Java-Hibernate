@@ -17,8 +17,8 @@ public class InputSinhVien extends JDialog {
     private JTextField txtId;
     private JTextField txtMSV;
     private JTextField txtHoVaTen;
-    private JTextField txtGioiTinh;
     private JTextField txtNamHoc;
+    private JComboBox comboBoxGioiTinh;
     private SinhvienLophocFrm home;
     private Lophoc l;
     public InputSinhVien(JDialog parent) {
@@ -30,16 +30,18 @@ public class InputSinhVien extends JDialog {
         setLocationRelativeTo(parent);
         home = (SinhvienLophocFrm) parent;
 
+        String gioiTinh[] = {"Nam", "Nữ"};
+        comboBoxGioiTinh.setModel(new DefaultComboBoxModel(gioiTinh));
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String Id = txtId.getText();
                 String MaSV = txtMSV.getText();
                 String HoVaTen = txtHoVaTen.getText();
                 Date NamNhapHoc = null;
-                Boolean GioiTinh = null;
+                Boolean GioiTinh = comboBoxGioiTinh.getSelectedIndex() == 0;
                 boolean isOk = true;
                 try {
-                    GioiTinh = Boolean.valueOf(txtGioiTinh.getText());
                     NamNhapHoc = new SimpleDateFormat("dd/MM/yyyy").parse(txtNamHoc.getText());
                 } catch (ParseException parseException) {
                     isOk = false;
@@ -51,7 +53,7 @@ public class InputSinhVien extends JDialog {
                     if(home.themSinhVien(sv)) {
                         JOptionPane.showMessageDialog(contentPane, "Thêm sinh viên thành công!");
                     } else {
-                        JOptionPane.showMessageDialog(contentPane, "Thêm sinh viên thất bại!");
+                        JOptionPane.showMessageDialog(contentPane, "Thêm sinh viên thất bại! Mã sinh viên không được trùng.");
                     }
                 }
             }
